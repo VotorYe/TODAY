@@ -7,31 +7,6 @@ import re
 
 page_size = 4
 
-class ProfileHandler(BaseHandler):
-    def get(self, user_name):
-        user = self.db.get("SELECT * FROM users WHERE name = %s", user_name)
-        entries = self.db.query("SELECT * FROM entries where author_id=%s ORDER BY published "
-                                "DESC", user.id)
-
-        page = int(self.get_argument("page", 1))
-        results_count = len(entries)
-        st = (page-1)*page_size
-        ed = page*page_size
-        ed = ed if ed < results_count else results_count+1
-        entries = entries[st:ed]
-
-        current_user = self.db.get("SELECT * FROM users WHERE id = %s", self.current_user.id)
-        target_user= self.db.get("SELECT * FROM users WHERE name = %s", user_name)
-        item = self.db.get("SELECT * FROM following WHERE follower_id = %s and followed_id=%s", 
-                                    current_user.id, target_user.id)
-        if item:
-            hasFollowed=True
-        else:
-            hasFollowed=False
-        for entry in entries:
-            entry.author_name = self.db.get("SELECT * FROM users WHERE id = %s", int(entry.author_id)).name
-        self.render("profile.html", entries=entries, user=user, hasFollowed=hasFollowed,\
-                            page=page, page_size=page_size, results_count=results_count)
 
 class FollowHandler(BaseHandler):
     def get(self, user_name):
@@ -53,6 +28,9 @@ class UnFollowHandler(BaseHandler):
         target_user= self.db.get("SELECT * FROM users WHERE name = %s", user_name)
         item = self.db.get("SELECT * FROM following WHERE follower_id = %s and followed_id=%s", 
                                     current_user.id, target_user.id)
+        if current_user.id == target_user.id:
+            self.redirect("/profile/"+user_name)
+            return
         if not item:
             self.redirect("/profile/"+user_name)
             return
@@ -62,17 +40,12 @@ class UnFollowHandler(BaseHandler):
 
 class MyFollowerHandler(BaseHandler):
     def get(self):
-        followings = self.db.query("SELECT * FROM following WHERE followed_id = %s", 
-                                    self.current_user.id)
-        self.render("followers.html", followings=followings)
+        followers = self.db.query("SELECT * FROM following f,users u WHERE f.followed_id = %s AND u.id = f.follower_id AND u.id != %s", 
+                                    self.current_user.id, self.current_user.id)
+        self.render("followers.html", followers=followers)
 
 class MyFollowHandler(BaseHandler):
     def get(self):
-        followings = self.db.query("SELECT * FROM following WHERE follower_id = %s", 
-                                    self.current_user.id)
-        self.render("follows.html", followings=followings)
-
-class MyProfileHandler(BaseHandler):
-    def get(self):
-        user_name = self.db.get("SELECT * FROM users WHERE id = %s", self.current_user.id).name
-        self.redirect("/profile/"+user_name)
+        follows = self.db.query("SELECT * FROM following f,users u WHERE f.follower_id = %s AND u.id = f.followed_id AND u.id != %s", 
+                                    self.current_user.id, self.current_user.id)
+        self.render("follows.html", follows=follows)
