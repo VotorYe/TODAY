@@ -9,8 +9,13 @@
 {% end %}
 {% for entry in entries %}
 <div>
-	<p>content:{{ entry.html }}</p>
-	<p>author:{{ entry.author_id }}</p>
+	<li>content:{{ entry.html }}</li>
+	<li>publish time:{{ entry.published }}</li>
+</div>
+{% end %}
+{% for sender in entrySender %}
+<div>
+	<p>author:{{ sender.name }}</p>
 </div>
 {% end %}
 {% end %}
