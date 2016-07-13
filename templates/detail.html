@@ -10,13 +10,17 @@
     动态
   </h5>
   <div class="col s12">{% raw entry.html %}</div>
-  <div>
+  
+  <div class="row">
   {% if entry.pic_paths %}
     {% for pic_path in entry.pic_paths %}
-    <img src="{{ static_url(pic_path) }}"  alt="icon" /><br>
-    {% end %}
+    <div class="section">
+      <img src="{{ static_url(pic_path) }}" class="col s11 z-depth-2" alt="icon" style="margin-bottom:20px;margin-left:20px;"/>
+    </div>
+    {% end %}    
   {% end %}
   </div>
+
   <div class="col s12"><a href="/profile/{{entry.author_name}}">{{entry.author_name}}</a></div>
   <div class="col s12">{{ locale.format_date(entry.published, full_format=True, shorter=True) }}</div>
   <h5 class="col s3 teal lighten-2 white-text z-depth-1" style="padding: 10px;">评论</h5>
@@ -71,6 +75,5 @@
     $("#special-button").removeClass("red");
     $("#special-button").css("background-color", "#ffb300");
    */
-   
   </script>
 {% end %}
