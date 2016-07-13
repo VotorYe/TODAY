@@ -11,11 +11,9 @@
 <div>
 	<li>content:{{ entry.html }}</li>
 	<li>publish time:{{ entry.published }}</li>
-</div>
-{% end %}
-{% for sender in entrySender %}
-<div>
-	<p>author:{{ sender.name }}</p>
+	<li>author_name:{{ entry.author_name }}</li>
+	<li>author_email:{{ entry.author_email }}</li>
+	<li>author_head_pic:{{ entry.head_pic }}</li>
 </div>
 {% end %}
 {% end %}
