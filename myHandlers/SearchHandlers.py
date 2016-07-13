@@ -22,9 +22,9 @@ class  SearchHandler(BaseHandler):
 		keywordSearchEntries(self.db, text, tr4w, entries)
 		for entry in entries:
 			user = self.db.get("SELECT * FROM users WHERE id=%s", int(entry.author_id))
-			entry.author_name = user.name;
+			entry.author_name = user.name
 			entry.author_email = user.email
-			entry.head_path = user.head_path;
+			entry.head_path = user.head_path
 		self.render("search.html", users = users, entries = entries)
 	def  post(self): 
 		pass
