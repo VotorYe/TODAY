@@ -42,6 +42,11 @@ function postNew() {
     $("#uploadForm").submit();
 }
 
+$("#nav-mobile li").click(function() {
+		$("#nav-mobile li").removeClass("active");
+		$(this).addClass("active");
+	});
+
 window.onload = function() {
 	hideSearch();
 };

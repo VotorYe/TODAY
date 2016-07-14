@@ -5,11 +5,16 @@
 <span style="color: red">Error: {{ error }}</span><p>
 {% end %}
 
-<form action="/auth/signup" method="POST">
-  Email: <input name="email" type="text"><br>
-  Name: <input name="name" type="text"><br>
-  Password: <input name="password" type="password"><br>
-  {% module xsrf_form_html() %}
-  <input type="submit">
-</form>
+<div class="row">
+	<form action="/auth/signup" method="POST">
+	  <h5>邮箱</h5>
+	  <input name="email" type="text">
+	  <h5>名字</h5>
+	  <input name="name" type="text">
+	  <h5>密码</h5>
+	  <input name="password" type="password">
+	  {% module xsrf_form_html() %}
+	  <input type="submit" value="确定" class="waves-effect waves-light btn z-depth-2" style="background-color:#ffb300"/>
+	</form>
+</div>
 {% end %}
