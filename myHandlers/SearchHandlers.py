@@ -16,10 +16,15 @@ class  SearchHandler(BaseHandler):
 		text = keyword.decode("utf8")
 		str = '%%' + text + '%%'
 		users = self.db.query("SELECT * FROM users WHERE name like %s", str)
-		entries = self.db.query("SELECT * FROM entries WHERE html like %s", str)
+		entries = self.db.query("SELECT * FROM entries WHERE html like %s AND UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(published)<=86400", str)
 		tr4w = TextRank4Keyword()
 		keywordSearchUser(self.db, text, tr4w, users)
 		keywordSearchEntries(self.db, text, tr4w, entries)
+		for entry in entries:
+			user = self.db.get("SELECT * FROM users WHERE id=%s", int(entry.author_id))
+			entry.author_name = user.name
+			entry.author_email = user.email
+			entry.head_path = user.head_path
 		self.render("search.html", users = users, entries = entries)
 	def  post(self): 
 		pass
@@ -40,7 +45,7 @@ def  keywordSearchEntries(database, text, tr4w, entries):
 	tr4w.analyze(text = text, lower = True, window=100)
 	for item in tr4w.get_keywords(20, word_min_len=1):
 		str = '%%' + item.word + '%%'
-		items = database.query("SELECT * FROM entries WHERE html like %s", str)
+		items = database.query("SELECT * FROM entries WHERE html like %s AND UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(published)<=86400", str)
 		if items:
 			for item in items:
 				if not item in entries:
