@@ -2,6 +2,7 @@
 
 {% block body %}
 <div class="row">
+    <div class="section">
     {% if users %}
         <h5 class="col s12">相关用户</h5>
 		{% for user in users %}
@@ -12,23 +13,28 @@
 		  </a>
 		</div>
 		{% end %}
-	{% else %}
-	    {% if entries %}
-			<h5 class="col s12">相关动态</h5>
-			<div class="collection">
-			{% for entry in entries %}
-			    <a href="/detail/{{ entry.slug }}" class="collection-item">{% raw entry.html %}</a>
-			    <!--
-				<div>
-					<p>content:</p>
-					<p>author:{{ entry.author_id }}</p>
-				</div>
-				  -->
-			{% end %}
-			</div>
-		{% else %}
-		    <h5 class="col s12">无相关结果</h5>
-		{% end %}
 	{% end %}
+	</div>
+	<div class="section">
+	{% if entries %}
+		<h5 class="col s12">相关动态</h5>
+		<!--
+		<li class="collection-item"><div>Alvin<a href="#!" class="secondary-content"><i class="material-icons">send</i></a></div></li>-->
+		<div class="collection">
+		{% for entry in entries %}
+		    <a href="/detail/{{ entry.slug }}" class="collection-item" style="display:block;overflow: hidden;">{% raw entry.html %}
+		    <span>{{ entry.published }}</span>
+		    <div class="secondary-content">{{ entry.author_name }}
+            <img src="{{ static_url(entry.head_path) }}" alt="icon" class="circle responsive-img"></div>
+            </a>
+		{% end %}
+		</div>
+	{% end %}
+	</div>
+	<div class="section">
+	{% if not entries and not users %}
+		<h5 class="col s12">无相关结果</h5>
+	{% end %}
+	</div>
 </div>
 {% end %}
