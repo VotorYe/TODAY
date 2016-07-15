@@ -185,9 +185,7 @@ var params = {
                   $(".upload_delete").click(function() {
                       ZXXFILE.funDeleteFile(files[parseInt($(this).attr("data-index"))]);
                       preHtml = document.getElementById("fileImageSpan").innerHTML;
-                      alert(preHtml);
                       document.getElementById("fileImageSpan").innerHTML = preHtml;
-                      alert(document.getElementById("fileImageSpan").innerHTML);
                       return false; 
                   });
                   //提交按钮显示
