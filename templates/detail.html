@@ -18,6 +18,10 @@
   {% end %}
   </div>
   <div class="col s12"><a href="/profile/{{entry.author_name}}">{{entry.author_name}}</a></div>
+  <!--
+    the following is url for delete
+    -->
+    <a href="/delete/{{entry.id}}" >delete</a>
   <div class="col s12">{{ locale.format_date(entry.published, full_format=True, shorter=True) }}</div>
   <h5 class="col s3 teal lighten-2 white-text z-depth-1" style="padding: 10px;">评论</h5>
   <div class="col s12">
