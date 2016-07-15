@@ -24,7 +24,7 @@ class DeleteHandler(BaseHandler):
 					if os.path.exists(filename):
 						os.remove(filename)
 						#print "delete"
-						i += 1
+					i += 1
 			self.db.execute(exe)
 			self.redirect("/")
 
