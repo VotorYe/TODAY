@@ -33,6 +33,7 @@ from myHandlers.Relation import FollowHandler,UnFollowHandler,\
                                 MyFollowerHandler, MyFollowHandler
 from myHandlers.Paginator import Paginator
 from myHandlers.SearchHandlers import SearchHandler
+from myHandlers.DeleteHandlers import DeleteHandler
 
 
 from tornado.options import define, options
@@ -61,6 +62,7 @@ class Application(tornado.web.Application):
             (r"/myfollow", MyFollowHandler),
             (r"/myProfile", MyProfileHandler),
             (r"/search/", SearchHandler),
+            (r"/delete/([^/]+)", DeleteHandler),
         ]
         settings = dict(
             app_title=u"TODAY",
