@@ -30,6 +30,23 @@ function hideSearch() {
 	$("#search").css("margin-left", "-" + $("#search").css("width"));
 }
 
+function editProfile() {
+	$("#userForm").submit();
+}
+
+function addComment() {
+    $("#commentForm").submit();
+}
+
+function postNew() {
+    $("#uploadForm").submit();
+}
+
+$("#nav-mobile li").click(function() {
+		$("#nav-mobile li").removeClass("active");
+		$(this).addClass("active");
+	});
+
 window.onload = function() {
 	hideSearch();
 };

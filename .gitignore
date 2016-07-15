@@ -89,7 +89,8 @@ ENV/
 .ropeproject
 
 # pic file
-static/files/pic
+static/files/pic/*
+static/files/icon/*
 
 Status API Training Shop Blog About
 © 2016 GitHub, Inc. Terms Privacy Security Contact Help

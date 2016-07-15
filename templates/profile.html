@@ -14,7 +14,6 @@
   <a href="/unfollow/{{user.name}}">unfollow him/her</a>
   {% end %}
   -->
-  <div class="divider"></div>
   <div class="section">
     <h5>头像</h5>
     <p><img src="{{ static_url(user.head_path) }}" alt="icon" class="circle responsive-img"/></p>
@@ -42,7 +41,21 @@
 {% end %}
 {% block bottom %}
 <script type="text/javascript">
+  {% if current_user.id == user.id %}
     $("#special-button").attr("href", "/edit/profile");
     $("#special-button").children().html("mode_edit");
+  {% else %}
+    {% if not hasFollowed %}
+      $("#special-button").attr("href", "/follow/{{user.name}}");
+      $("#special-button").children().html("visibility");
+      $("#special-button").removeClass("red");
+      $("#special-button").addClass("yellow accent-2");
+    {% else %}
+      $("#special-button").attr("href", "/unfollow/{{user.name}}");
+      $("#special-button").children().html("visibility_off");
+      $("#special-button").removeClass("red");
+      $("#special-button").addClass("grey darken-2");
+    {% end %}
+  {% end %}
 </script>
 {% end %}
