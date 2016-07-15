@@ -63,7 +63,7 @@ var ZXXFILE = {
 			if (file != fileDelete) {
 				arrFile.push(file);
 			} else {
-				this.onDelete(fileDelete);	
+				this.onDelete(fileDelete);
 			}
 		}
 		this.fileFilter = arrFile;
@@ -133,7 +133,7 @@ var ZXXFILE = {
 	}
 };
 var params = {
-  maxFileCount: 9,
+  maxFileCount: 1,
   fileInput: $("#fileImage").get(0),
   dragDrop: $("#fileDragArea").get(0),
   upButton: $("#SubmitPost").get(0),
@@ -184,6 +184,10 @@ var params = {
                   //删除方法
                   $(".upload_delete").click(function() {
                       ZXXFILE.funDeleteFile(files[parseInt($(this).attr("data-index"))]);
+                      preHtml = document.getElementById("fileImageSpan").innerHTML;
+                      alert(preHtml);
+                      document.getElementById("fileImageSpan").innerHTML = preHtml;
+                      alert(document.getElementById("fileImageSpan").innerHTML);
                       return false; 
                   });
                   //提交按钮显示

@@ -6,15 +6,18 @@ class HomeHandler(BaseHandler):
     def get(self, arg=None):
         if not self.current_user:
             all = True
+            user_name = ""
         else:
             all = self.get_argument("all", False)
             user_id = self.current_user.id
+            user_name = self.db.get("SELECT * FROM users WHERE id=%s", self.current_user.id).name
 
         page = int(self.get_argument("page", 1))
-        if not all:
+        if not all and user_name != "admin":
             results_count = self.db.execute_rowcount("SELECT * FROM entries, following "
                                                 "WHERE follower_id=%s and "
                                                 "followed_id=author_id "
+                                                "AND UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(published)<=86400 "
                                                 "ORDER BY published ", user_id)
             st = (page-1)*page_size
             ed = page*page_size
@@ -22,10 +25,13 @@ class HomeHandler(BaseHandler):
             entries = self.db.query("SELECT * FROM entries, following "
                                                 "WHERE follower_id=%s and "
                                                 "followed_id=author_id "
+                                                "AND UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(published)<=86400 "
                                                 "ORDER BY published "
                                                 "DESC LIMIT %s,%s", user_id, st, (ed-st))
         else:
-            results_count = self.db.execute_rowcount("SELECT * FROM entries ORDER BY published "
+            results_count = self.db.execute_rowcount("SELECT * FROM entries "
+                                                     "WHERE UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(published)<=86400 "
+                                                     "ORDER BY published "
                                 "DESC")
             st = (page-1)*page_size
             ed = page*page_size

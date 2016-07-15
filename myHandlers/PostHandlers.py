@@ -58,6 +58,7 @@ class PublishHandler(BaseHandler):
 class EntryHandler(BaseHandler):
     def get(self, slug):
         entry = self.db.get("SELECT * FROM entries WHERE slug = %s", slug)
+        user_name = self.db.get("SELECT * FROM users WHERE id = %s", self.current_user.id).name
         if entry.imgPaths != "":
             entry.pic_paths = entry.imgPaths.strip(' ').split(' ')
         else:
@@ -75,7 +76,7 @@ class EntryHandler(BaseHandler):
 
         if not entry: raise tornado.web.HTTPError(404)
         self.render("detail.html", entry=entry, comments=comments, \
-                            page=page, page_size=page_size, results_count=results_count)
+                            page=page, page_size=page_size, results_count=results_count, user_name=user_name)
 
 class CommentHandler(BaseHandler):
     @tornado.web.authenticated

@@ -20,19 +20,20 @@
     {% end %}    
   {% end %}
   </div>
-
+  {% if user_name == "admin" %}
+  <div><a href="/delete/{{entry.id}}" class="waves-effect waves-light btn z-depth-2" style="background-color:RED">delete</a></div>
+  {% end %}
   <div class="col s12"><a href="/profile/{{entry.author_name}}">{{entry.author_name}}</a></div>
   <!--
     the following is url for delete
     -->
-    <a href="/delete/{{entry.id}}" >delete</a>
   <div class="col s12">{{ locale.format_date(entry.published, full_format=True, shorter=True) }}</div>
   <h5 class="col s3 teal lighten-2 white-text z-depth-1" style="padding: 10px;">评论</h5>
   <div class="col s12">
     {% for comment in comments %}
     <div class="section">
       <p>{{comment.html}}</p>
-      <p>{{comment.author_name}}</p>
+      <a style="float:right" href="/profile/{{comment.author_name}}">By:{{comment.author_name}}</a>
       <p>{{ locale.format_date(comment.published, full_format=True, shorter=True) }}</p>
     </div>
     <div class="divider"></div>

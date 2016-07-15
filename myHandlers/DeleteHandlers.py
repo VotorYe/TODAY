@@ -26,7 +26,7 @@ class DeleteHandler(BaseHandler):
 						#print "delete"
 					i += 1
 			self.db.execute(exe)
-			self.redirect("/")
+		self.redirect("/")
 
 	def  post(self):
 		pass
